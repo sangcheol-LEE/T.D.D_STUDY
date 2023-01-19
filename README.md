@@ -1,46 +1,101 @@
-# Getting Started with Create React App
+# React Testing Study
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Jest?
+- 페이스북에 의해서 만들어진 테스팅 프레임워크, 최소한의 설정으로 동작하며 test case를 만들어서 어플리케이션 코드가
+잘 돌아가는 지 확인해줍니다.
+- 단위[Unit]테스트를 하기 위해서 이용합니다.
 
-## Available Scripts
+## Jest가 파일을 찾는 방법
+- CRA로 프로젝트를 생성했으면 따로 다운받지 않아도 되며,
+1. 파일이름.test.js와 파일이름.spec.js 처럼 만들어주면 됨
+2. 폴더명을 tests로 생성 후 그 안에 파일을 만들면 됨.
 
-In the project directory, you can run:
 
-### `npm start`
+## Jest파일 구조 & 사용법
+describe안에 테스트 케이스들을 넣어서 확인함.
+- describe는 여러 관련 테스트를 그룹화 하는 블록을 만듭니다.
+- test(it)은 개별  테스트를 수행하는 곳, 각 테스트를 작은 문장 처럼 설명합니다.
+- expect 함수는 값을 테스트 할 때마다 사용됩니다. 그리고 expect 함수는 혼자서 거의 사용되지 않으며 matcher와 함께 사용됩니다.
+- matcher는 다른 방법으로 값을 테스트하도록 "matcher"를 사용합니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 쿼리함수에 대해서..
+- 쿼리는 페이지에서 요소를 찾기 위해 테스트 라이브러리가 제공하는 방법입니다.
+- 여러 유형의 쿼리 ["get","find","query"]가 있습니다.
+- 이들 간의 차이점은 요소가 다시 발견되지 않으면 쿼리에서 오는 오류가 발생하는지 또는 Promise를 반환하고 다시 시도하는지에 대한 여부입니다
+- 선택하는 페이지 콘텐츠에 따라 다른 쿼리가 다소 적절할 수 있습니다.
 
-### `npm test`
+## get,find,query에 차이점
+1. get
+- 쿼리에 대해 일치하는 노드를 반환하고 일치하는 요소가 없거나 둘 이상의 일치가 발견되면 설명 오류를 발생 시킵니다.
+- 둘 이상의 요소가 예상되는 경우 대신 getAllBy 사용
+
+2. query
+- 쿼리에 대해 일치하는 노드를 반환하고 일치하는 노드가 없으면 `null`을 반환합니다.
+- 이것은 존재하지 않는 요소를 어설션 하는데 유용합니다.
+- 둘 이상의 일치 항목이 발견되면 오류를 발생시킵니다. 확인된 경우 대신 queryAllBy 사용
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. find
+- 주어진 쿼리와 일치하는 요소가 발견되면 해결되는 Promise를 반환합니다.
+- 요소가 발견되지 않거나 기본 제한 시간인 1000ms 후에 둘 이상의 요소가 발견되면 약속이 거부됩니다.
+- 둘 이상의 요소를 찾아야 하는 경우에 findAllBy 사용
 
-### `npm run build`
+4. waitFor
+- 일정 시간동안 기다려야 할 때 waitFor을 사용하여 기대가 통과될 때까지 기다릴 수 있습니다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 테스팅에 도움을 주는 모듈 설치
+1. ES Lint
+- 개발자들이 특정한 규칙을 가지고 코드를 깔끔하게 짜도록 도와주는 라이브러리
+- 자바 스크립트를 쓰는 가이드 라인 제시, 문법에 오류가 나면 알려주는 역할 등등..
+- 포멧터(formatter)의 역할도 하지만 주요 기능은 문법 오류를 잡는 것
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2 Prettier
+- 주로 코드 형식을 맞추는 데 사용 작은 따옴표(')를 사용할지 큰 따옴표(")를 사용할 지 Indent값으로 2줄을 사용할지 4줄을 사용할지 등등
+- 에러를 찾는 것이 아닌 코드 포맷터(formatter)역할
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### ES Lint 설정
+1. ES Lint 익스텐션 설치
+2. ES Lint 설정 파일 생성 [최상위 디렉토리에 .eslintrc.json 파일 생성]
+3. testing을 도와주는 ESLint를 설치
+- ES Lint testing plugin 설치
+- npm install eslint-plugin-testing-library eslint-plugin-jest-dom --save-dev
+4. 내부 설정 해주기
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Prettier 설정
+1. npm으로 설정가능 - 여러 개발자와 같은 포멧 유지에 더 좋음
+2. VS code 익스텐션으로 설치가능 - 혼자서 편하게 설치해서 사용하기 좋음
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## T.D.D[Test Driven Develope]테스트 주도 개발이란 ?
+- 실제 코드를 작성하기 전에 테스트 코드를 먼저 작성합니다.
+- 테스트 코드를 작성한 후 그 테스트 코드를 Pass 할 수 있는 실제 코드를 작성합니다.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### 개발 순서
+1. 원하고자 하는 기능의 테스트 코드 작성
+2. 테스트 실행 [Fail]
+3. 테스트 코드에 맞는 실제 코드 작성
+4. 테스트 실행 [Pass]
 
-## Learn More
+### T.D.D를 하면 좋은 점
+1. TDD를 하므로 인해 많은 기능을 테스트 하기에 소스 코드에 안정감이 부여된다.
+2. 실제 개발하면서 많은 시간이 소요되는 부분은 디버깅 부분이기에 TDD를 사용하면 디버깅 시간이 줄고 실제 개발 시간도 줄어듭니다.
+3. 소스 코드 하나하나를 더욱 신중하게 짤 수 있기 때문에 깨끗한 코드가 나올 확률이 높습니다.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## FireEvent API
+- 유저가 발생시키는 액션(이벤트)에 대한 테스트를 해야하는 경우 사용
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Query 사용 우선순위
+- 현재까지 getByTestId 쿼리를 이용해서 엘리먼트에 접근한 후 테스트를 진행 했습니다. 이 방법이 편리하지만,
+testing library에서 추천하는 쿼리 사용 우선순위가 있기 때문에 한번 보고 가겠습니다.
+1. getByRole - getByRole("button",{name: /submit/i});
+
+## userEvent > fireEvent
+- 이전에 테스팅에서 버튼을 클릭했을 때 fireEvent API를 사용했습니다.
+이때 fireEvent를 사용해서 잘 처리를 해줬지만, userEvent API를 사용하는 게 더 좋은 방법입니다.
+* fireEvent.click() < userEvent.click() *
+
+- useEvent는 fireEvent를 사용해서 만들어졌습니다. userEvent의 내부 코드를 보면, ireEvent를 사용하면서 엘리먼트의 타입에 따라서 label을 클릭 했을 때, checkbox, radio을 클릭했을 때,
+그 엘리먼트 타입에 맞는 더욱 적절한 반응을 보여줍니다. 예를 들어서 fireEvent로 버튼을 클릭하면 fireEvent.click(button)이 포커스가 됩니다. 이렇게 실제 사용하는 유저가 보기에 실제 버튼을 클릭하는 행위가
+더 잘 표현되기에 userEvent를 사용하는게 더 추천되는 방법입니다.
