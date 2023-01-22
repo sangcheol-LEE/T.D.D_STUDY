@@ -99,3 +99,7 @@ testing library에서 추천하는 쿼리 사용 우선순위가 있기 때문�
 - useEvent는 fireEvent를 사용해서 만들어졌습니다. userEvent의 내부 코드를 보면, ireEvent를 사용하면서 엘리먼트의 타입에 따라서 label을 클릭 했을 때, checkbox, radio을 클릭했을 때,
 그 엘리먼트 타입에 맞는 더욱 적절한 반응을 보여줍니다. 예를 들어서 fireEvent로 버튼을 클릭하면 fireEvent.click(button)이 포커스가 됩니다. 이렇게 실제 사용하는 유저가 보기에 실제 버튼을 클릭하는 행위가
 더 잘 표현되기에 userEvent를 사용하는게 더 추천되는 방법입니다.
+
+
+# Mock service Worker
+- 웹 통신을 mock 값으로 할 수 있게 해주는 라이브러리 설치
