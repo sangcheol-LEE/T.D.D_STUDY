@@ -1,9 +1,13 @@
 import React from 'react'
+import Types from './Types'
 
-const OrderPage = () => {
+const OrderPage:React.FC = () => {
+   export interface Props {
+      orderType : string
+   }
    return (
       <div>
-         OrderPage
+         <Types orderType="products"}/>
       </div>
    )
 }

@@ -1,13 +1,15 @@
-import React,{useEffect,useState} from 'react'
+import React,{useEffect,useState} from 'react';
 import Axios from 'axios'
-
-const Types:React.FC = ({orderType}) => {
+import Products from './Products';
+import {Props} from "./OrderPage"
+const Types:React.FC = (orderType:Props) => {
+   console.log("orderType",orderType)
    const [items, setItems] = useState([]);
    useEffect(() => {
       loadItems(orderType)
    },[orderType])
 
-   const loadItems = async() => {
+   const loadItems = async(orderType:string) => {
       try{
          const response = Axios.get(`http://localhost:5000/${orderType}`)
          setItems(response.data)
@@ -16,9 +18,14 @@ const Types:React.FC = ({orderType}) => {
       }
    }
 
-   const ItemComponents = orderItem === "products" ? Products : null;
 
-   const optionItems = items.map((item) => (
+   interface User {
+      name : string
+      imagePath : string
+   }
+   const ItemComponents = orderType === "products" ? Products : null;
+
+   const optionItems = items.map((item:User) => (
       <ItemComponents
          key={item.name}
          name={item.name}
@@ -27,9 +34,7 @@ const Types:React.FC = ({orderType}) => {
    ))
 
    return (
-      <div>
-         Type
-      </div>
+      <div>{optionItems}</div>
    )
 }
 
